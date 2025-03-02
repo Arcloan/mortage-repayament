@@ -20,8 +20,13 @@ function calcMonthlyInterestOwed(monthlyPayament, years, Amount) {
 }
 
 export function Form({ setResultOnSubmit }) {
-    const { handleSubmit, register, reset, formState : { errors } } = useForm();
+    const { handleSubmit, register, reset, formState : { errors }, setError } = useForm();
     const onSubmit = (data) => {
+        if (isNaN(data.Amount) || isNaN(data.Years) || isNaN(data.Rate)) {
+            setError("root", {type: "Incorrect type", message: "You should enter numbers in the form fields"});
+            setResultOnSubmit(null);
+            return;
+        } 
         if (data.Type === "Repayament") {
             setResultOnSubmit({monthly: calcMonthlyOwed(data.Rate, data.Amount, data.Years).toFixed(2), total: calcTotalOwed(calcMonthlyOwed(data.Rate, data.Amount, data.Years), data.Years).toFixed(2)})
         }
@@ -38,42 +43,43 @@ export function Form({ setResultOnSubmit }) {
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="group/form grid gap-2 md:grid-cols-subgrid md:col-span-2">
                 <label className="block" htmlFor="Amount">Mortage Amount</label>
-                <div className="has-[:focus]:border-(--color-lime) group flex border-2 rounded border-black mb-2 md:col-span-2 group-has-[>_.error]/form:border-(--color-red)">
+                <div className="has-[:focus]:border-(--color-lime) group flex border-2 rounded border-(--color-slate500) mb-2 md:col-span-2 group-has-[>_.error]/form:border-(--color-red)">
                     <p className="group-has-[:focus]:bg-(--color-lime)! py-2 px-4 bg-(--color-slate100) group-has-[>_.error]/form:bg-(--color-red) group-has-[>_.error]/form:text-white">£</p>
                     <input {...register("Amount", {required : "This field is required", valueAsNumber: true})} className="outline-none hover:cursor-pointer grow-1 text-left pl-2" id="Amount" type="text" />
                 </div>
                 {errors.Amount && <p className="error -mt-2 text-(--color-red) h-max md:col-span-2">{errors.Amount.message}</p>}
                 <div className="max-md:contents group/error">
                     <label className="block md:mb-2" htmlFor="Years">Mortage Term</label>
-                    <div className="has-[:focus]:border-(--color-lime) group flex border-2 rounded border-black mb-2 group-has-[.error]/error:border-(--color-red)">
-                        <input {...register("Years", {required : "this field is required", valueAsNumber: true})} className="outline-none hover:cursor-pointer grow-1 text-left pl-2" type="text" id="Years" />
-                        <p className="group-has-[:focus]:bg-(--color-lime) py-2 px-4 bg-(--color-slate100) group-has-[.error]/error:bg-(--color-red) group-has-[.error]/error:text-white">years</p>
+                    <div className="has-[:focus]:border-(--color-lime) group flex md:grid grid-cols-[1fr_auto] border-2 rounded border-(--color-slate500) mb-2 group-has-[.error]/error:border-(--color-red)">
+                        <input {...register("Years", {required : "this field is required", valueAsNumber: true})} className="w-full grow-1 outline-none hover:cursor-pointer text-left pl-2" type="text" id="Years" />
+                        <p className="group-has-[:focus]:bg-(--color-lime) py-2 px-4 bg-(--color-slate100) md:w-max group-has-[.error]/error:bg-(--color-red) group-has-[.error]/error:text-white">years</p>
                     </div>
                     {errors.Years && <p className="error max-md:-mt-2 text-(--color-red) h-max">{errors.Years.message}</p>}
                 </div>
                 <div className="max-md:contents group/error">
                     <label className="block md:mb-2" htmlFor="InterestRate">Interest Rate</label>
-                    <div className="has-[:focus]:border-(--color-lime) group flex border-2 rounded border-black mb-2 group-has-[.error]/error:border-(--color-red)">
-                        <input {...register("Rate", {required : "this field is required", valueAsNumber: true})} className="outline-none hover:cursor-pointer grow-1 text-left pl-2" type="text" id="InterestRate" />
+                    <div className="has-[:focus]:border-(--color-lime) group flex md:grid grid-cols-[1fr_auto] border-2 rounded border-(--color-slate500) mb-2 group-has-[.error]/error:border-(--color-red)">
+                        <input {...register("Rate", {required : "this field is required", valueAsNumber: true})} className="w-full outline-none hover:cursor-pointer grow-1 text-left pl-2" type="text" id="InterestRate" />
                         <p className="group-has-[:focus]:bg-(--color-lime) py-2 px-4 bg-(--color-slate100) group-has-[.error]/error:bg-(--color-red) group-has-[.error]/error:text-white">%</p>
                     </div>
                     {errors.Rate && <p className="error max-md:-mt-2 text-(--color-red) h-max">{errors.Rate.message}</p>}
                 </div>
                 <fieldset className="appereance-none mb-2 md:col-span-2">
                     <legend className="mb-2">Mortage Type</legend>
-                    <label className="has-[:checked]:border-(--color-lime) hover:border-(--color-lime) hover:cursor-pointer accent-(--color-lime) border-2 rounded border-black py-2 px-4 flex gap-4 items-center mb-2 md:col-span-2 has-checked:bg-(--color-lime)/30">
+                    <label className="has-[:checked]:border-(--color-lime) hover:border-(--color-lime) hover:cursor-pointer accent-(--color-lime) border-2 rounded border-(--color-slate500) py-2 px-4 flex gap-4 items-center mb-2 md:col-span-2 has-checked:bg-(--color-lime)/30">
                         <input {...register("Type", {required : "this field is required"})} type="radio" value="Repayament" id="Repayament" />
                         <p>Repayament</p>
                     </label>
-                    <label className="has-[:checked]:border-(--color-lime) hover:border-(--color-lime) mb-2 hover:cursor-pointer accent-(--color-lime) border-2 rounded border-black py-2 px-4 flex gap-4 items-center md:col-span-2 has-checked:bg-(--color-lime)/30">
+                    <label className="has-[:checked]:border-(--color-lime) hover:border-(--color-lime) mb-2 hover:cursor-pointer accent-(--color-lime) border-2 rounded border-(--color-slate500) py-2 px-4 flex gap-4 items-center md:col-span-2 has-checked:bg-(--color-lime)/30">
                         <input {...register("Type", {required : "this field is required"})} type="radio" value="InterestOnly" id="InterestOnly" />
                         <p>Interest Only</p>
                     </label>
                     {errors.Type && <p className="error text-(--color-red) md:col-span-2 h-max">{errors.Type.message}</p>}
                 </fieldset>
-                <button className="hover:bg-(--color-lime)/50 hover:cursor-pointer flex justify-center gap-4 px-4 py-3 rounded-full bg-(--color-lime)" type="submit">
+                <button className="hover:bg-(--color-lime)/50 hover:cursor-pointer md:col-span-2 flex justify-center gap-4 px-4 py-3 rounded-full bg-(--color-lime)" type="submit">
                     <img src={import.meta.env.BASE_URL + "/icon-calculator.svg"} alt="" />Calculate Repayaments
                 </button>
+                {errors.root && <p className="col-span-2 text-(--color-red)">{errors.root.message}</p>}
             </form>
         </div>
     )
