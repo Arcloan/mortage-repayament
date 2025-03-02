@@ -72,7 +72,7 @@ export function Form({ setResultOnSubmit }) {
                     {errors.Type && <p className="error text-(--color-red) md:col-span-2 h-max">{errors.Type.message}</p>}
                 </fieldset>
                 <button className="hover:bg-(--color-lime)/50 hover:cursor-pointer flex justify-center gap-4 px-4 py-3 rounded-full bg-(--color-lime)" type="submit">
-                    <img src="/assets/images/icon-calculator.svg" alt="" />Calculate Repayaments
+                    <img src="/icon-calculator.svg" alt="" />Calculate Repayaments
                 </button>
             </form>
         </div>

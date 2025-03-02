@@ -3,7 +3,7 @@ export function Result({ value }){
         return (
             <div className="grid place-items-center bg-(--color-slate900) p-4 md:rounded-r-xl md:rounded-bl-[3rem]">
                 <div className="md:p-4">
-                    <img className="mx-auto" src="/assets/images/illustration-empty.svg" alt="" />
+                    <img className="mx-auto" src="/illustration-empty.svg" alt="" />
                     <h2 className="text-center mb-4 text-xl text-white font-semibold">Results shown here</h2>
                     <p className="text-slate-500 text-center">Complete the form and click "calculate repayaments" to
                     see what your monthly repayaments would be.
