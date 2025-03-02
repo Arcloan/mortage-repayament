@@ -76,7 +76,7 @@ export function Form({ setResultOnSubmit }) {
                     </label>
                     {errors.Type && <p className="error text-(--color-red) md:col-span-2 h-max">{errors.Type.message}</p>}
                 </fieldset>
-                <button className="hover:bg-(--color-lime)/50 hover:cursor-pointer md:col-span-2 flex justify-center gap-4 px-4 py-3 rounded-full bg-(--color-lime)" type="submit">
+                <button className="hover:bg-(--color-lime)/50 hover:cursor-pointer md:w-max md:col-span-2 flex justify-center gap-4 px-4 py-3 rounded-full bg-(--color-lime)" type="submit">
                     <img src={import.meta.env.BASE_URL + "/icon-calculator.svg"} alt="" />Calculate Repayaments
                 </button>
                 {errors.root && <p className="col-span-2 text-(--color-red)">{errors.root.message}</p>}
